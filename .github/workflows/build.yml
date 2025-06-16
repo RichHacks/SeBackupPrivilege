@@ -23,13 +23,13 @@ jobs:
 
     - name: Build Solution
       run: |
-        msbuild SeBackupPrivilege.sln /p:Configuration=${{ matrix.configuration }} /p:Platform="${{ matrix.platform }}" /p:TargetFrameworkVersion=${{ matrix.framework }} /p:OutputPath=bin\${{ matrix.configuration }}\${{ matrix.platform }}\${{ matrix.framework }}\
+        msbuild SeBackupPrivilege.sln /p:Configuration=${{ matrix.configuration }} /p:Platform="${{ matrix.platform }}" /p:TargetFrameworkVersion=${{ matrix.framework }} /p:OutputPath=bin\${{ matrix.configuration }}\AnyCPU\${{ matrix.framework }}\
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: build-${{ matrix.platform }}-${{ matrix.framework }}
+        name: build-AnyCPU-${{ matrix.framework }}
         path: |
-          SeBackupPrivilegeUtils/bin/${{ matrix.configuration }}/${{ matrix.platform }}/${{ matrix.framework }}/
-          SeBackupPrivilegeCmdLets/bin/${{ matrix.configuration }}/${{ matrix.platform }}/${{ matrix.framework }}/
-          SeBackupPrivilegeTest/bin/${{ matrix.configuration }}/${{ matrix.platform }}/${{ matrix.framework }}/ 
+          SeBackupPrivilegeUtils/bin/${{ matrix.configuration }}/AnyCPU/${{ matrix.framework }}/
+          SeBackupPrivilegeCmdLets/bin/${{ matrix.configuration }}/AnyCPU/${{ matrix.framework }}/
+          SeBackupPrivilegeTest/bin/${{ matrix.configuration }}/AnyCPU/${{ matrix.framework }}/ 
