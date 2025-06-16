@@ -1,0 +1,38 @@
+name: Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        framework: ['v2.0', 'v3.5', 'v4.0', 'v4.5', 'v4.6.1', 'v4.7.2', 'v4.8']
+        platform: ['x86', 'x64']
+        configuration: ['Release']
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.3.1
+
+    - name: Restore NuGet packages
+      run: nuget restore SeBackupPrivilege.sln
+
+    - name: Build Solution
+      run: |
+        msbuild SeBackupPrivilege.sln /p:Configuration=${{ matrix.configuration }} /p:Platform=${{ matrix.platform }} /p:TargetFrameworkVersion=${{ matrix.framework }} /p:OutputPath=bin\${{ matrix.configuration }}\${{ matrix.platform }}\${{ matrix.framework }}\
+
+    - name: Upload Build Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-${{ matrix.platform }}-${{ matrix.framework }}
+        path: |
+          SeBackupPrivilegeUtils/bin/${{ matrix.configuration }}/${{ matrix.platform }}/${{ matrix.framework }}/
+          SeBackupPrivilegeCmdLets/bin/${{ matrix.configuration }}/${{ matrix.platform }}/${{ matrix.framework }}/
+          SeBackupPrivilegeTest/bin/${{ matrix.configuration }}/${{ matrix.platform }}/${{ matrix.framework }}/ 
