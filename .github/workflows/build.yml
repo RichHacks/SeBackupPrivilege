@@ -23,7 +23,7 @@ jobs:
 
     - name: Build Solution
       run: |
-        msbuild SeBackupPrivilege.sln /p:Configuration=${{ matrix.configuration }} /p:Platform="${{ matrix.platform }}" /p:TargetFrameworkVersion=${{ matrix.framework }} /p:OutputPath=bin\${{ matrix.configuration }}\AnyCPU\${{ matrix.framework }}\
+        msbuild SeBackupPrivilege.sln /p:Configuration=${{ matrix.configuration }} /p:Platform="${{ matrix.platform }}" /p:TargetFrameworkVersion=${{ matrix.framework }} /p:OutputPath=bin\${{ matrix.configuration }}\AnyCPU\${{ matrix.framework }}\ /p:UseRoslynCompiler=false
 
     - name: Upload Build Artifacts
       uses: actions/upload-artifact@v4
